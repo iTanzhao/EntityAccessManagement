@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("EntityAccessManagement")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Manage role permissions in the dimension of entity")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Zhao Tan")]
 [assembly: AssemblyProduct("EntityAccessManagement")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
