@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityAccessManagement", "EntityAccessManagement\EntityAccessManagement.csproj", "{03D42FA1-AF20-48C6-B553-B0C8716CA3BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03D42FA1-AF20-48C6-B553-B0C8716CA3BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D42FA1-AF20-48C6-B553-B0C8716CA3BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03D42FA1-AF20-48C6-B553-B0C8716CA3BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03D42FA1-AF20-48C6-B553-B0C8716CA3BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D372EC3-1B73-4DFC-8BB7-7BFC966020CD}
+	EndGlobalSection
+EndGlobal
