@@ -162,6 +162,10 @@ namespace EntityAccessManagement
                     foreach (PrivilegeType privilegeType in Enum.GetValues(typeof(PrivilegeType)))
                     {
                         Entity Privilege = CRMHelper.GetPrivilege(Service, $"{privilegeType}{EntityPrivileges.EntityName}");
+                        if (Privilege == null)
+                        {
+                            continue;
+                        }
                         EntityPrivileges.SetPrivilegeId(privilegeType, Privilege);
                         EntityCollection entityCollection = CRMHelper.GetRoleprivileges(Service, Privilege.Id.ToString());
                         foreach (var item in entityCollection.Entities)

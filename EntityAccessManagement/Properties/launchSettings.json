@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "EntityAccessManagement": {
+      "commandName": "Executable",
+      "executablePath": "$(TargetDir)XrmToolBox.exe",
+      "commandLineArgs": "/overridepath:XrmToolBox"
+    }
+  }
+}
