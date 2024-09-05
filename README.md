@@ -18,3 +18,6 @@ After selecting the entity, click the "Load permissions" button above to load th
 
 ## Edit permissions
 Double-click the permission icon in the table, similar to permission editing in the Dynamics365 system. After editing, click the "Save" button to save the edit.
+
+## Import to Excel
+The current result can be saved to the desktop.
