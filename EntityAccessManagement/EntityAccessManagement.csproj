@@ -35,6 +35,7 @@
 		<WarningLevel>4</WarningLevel>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="EPPlus" Version="7.3.0" />
 		<PackageReference Include="XrmToolBoxPackage" Version="1.2022.5.56" />
 		<PackageReference Include="Microsoft.IdentityModel" Version="7.0.0" Condition="'$(Configuration)'=='Debug'" />
 	</ItemGroup>

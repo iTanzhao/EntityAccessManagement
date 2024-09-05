@@ -28,15 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
             this.tsbClose = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbReloadentity = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbLoadpermissions = new System.Windows.Forms.ToolStripButton();
-            this.tssSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbSave = new System.Windows.Forms.ToolStripButton();
+            this.tssSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tabExcel = new System.Windows.Forms.ToolStripButton();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.cbEntities = new System.Windows.Forms.ComboBox();
@@ -55,8 +57,10 @@
             this.tsbReloadentity,
             this.toolStripSeparator2,
             this.tsbLoadpermissions,
+            this.toolStripSeparator3,
+            this.tsbSave,
             this.tssSeparator1,
-            this.tsbSave});
+            this.tabExcel});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
             this.toolStripMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
@@ -68,7 +72,7 @@
             // 
             this.tsbClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsbClose.Name = "tsbClose";
-            this.tsbClose.Size = new System.Drawing.Size(86, 22);
+            this.tsbClose.Size = new System.Drawing.Size(95, 22);
             this.tsbClose.Text = "Close this tool";
             this.tsbClose.Click += new System.EventHandler(this.tsbClose_Click);
             // 
@@ -81,7 +85,7 @@
             // 
             this.tsbReloadentity.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsbReloadentity.Name = "tsbReloadentity";
-            this.tsbReloadentity.Size = new System.Drawing.Size(80, 22);
+            this.tsbReloadentity.Size = new System.Drawing.Size(88, 22);
             this.tsbReloadentity.Text = "Reload entity";
             this.tsbReloadentity.Click += new System.EventHandler(this.tsbReloadentity_Click);
             // 
@@ -94,22 +98,35 @@
             // 
             this.tsbLoadpermissions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsbLoadpermissions.Name = "tsbLoadpermissions";
-            this.tsbLoadpermissions.Size = new System.Drawing.Size(103, 22);
+            this.tsbLoadpermissions.Size = new System.Drawing.Size(115, 22);
             this.tsbLoadpermissions.Text = "Load permissions";
             this.tsbLoadpermissions.Click += new System.EventHandler(this.tsbLoadpermissions_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbSave
+            // 
+            this.tsbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbSave.Name = "tsbSave";
+            this.tsbSave.Size = new System.Drawing.Size(124, 22);
+            this.tsbSave.Text = "Save Your Changes";
+            this.tsbSave.Click += new System.EventHandler(this.tsbSave_Click);
             // 
             // tssSeparator1
             // 
             this.tssSeparator1.Name = "tssSeparator1";
             this.tssSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // tsbSave
+            // tabExcel
             // 
-            this.tsbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbSave.Name = "tsbSave";
-            this.tsbSave.Size = new System.Drawing.Size(35, 22);
-            this.tsbSave.Text = "Save";
-            this.tsbSave.Click += new System.EventHandler(this.tsbSave_Click);
+            this.tabExcel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tabExcel.Name = "tabExcel";
+            this.tabExcel.Size = new System.Drawing.Size(94, 22);
+            this.tabExcel.Text = "ExportToExcel";
+            this.tabExcel.Click += new System.EventHandler(this.tabExcel_Click);
             // 
             // label1
             // 
@@ -118,7 +135,7 @@
             this.label1.Location = new System.Drawing.Point(10, 10);
             this.label1.Margin = new System.Windows.Forms.Padding(5);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 17);
+            this.label1.Size = new System.Drawing.Size(53, 16);
             this.label1.TabIndex = 10;
             this.label1.Text = "Entities";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -141,16 +158,16 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(798, 523);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(798, 481);
             this.tableLayoutPanel1.TabIndex = 13;
             // 
             // cbEntities
             // 
             this.cbEntities.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbEntities.FormattingEnabled = true;
-            this.cbEntities.Location = new System.Drawing.Point(59, 8);
+            this.cbEntities.Location = new System.Drawing.Point(71, 8);
             this.cbEntities.Name = "cbEntities";
-            this.cbEntities.Size = new System.Drawing.Size(202, 21);
+            this.cbEntities.Size = new System.Drawing.Size(202, 20);
             this.cbEntities.TabIndex = 11;
             // 
             // dataGridView1
@@ -158,28 +175,28 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableLayoutPanel1.SetColumnSpan(this.dataGridView1, 3);
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(8, 35);
+            this.dataGridView1.Location = new System.Drawing.Point(8, 34);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(782, 480);
+            this.dataGridView1.Size = new System.Drawing.Size(782, 439);
             this.dataGridView1.TabIndex = 12;
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
             // 
             // MyPluginControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.toolStripMenu);
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "MyPluginControl";
-            this.Size = new System.Drawing.Size(798, 548);
+            this.Size = new System.Drawing.Size(798, 506);
             this.Load += new System.EventHandler(this.MyPluginControl_Load);
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();
@@ -203,6 +220,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton tsbLoadpermissions;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton tabExcel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton tsbSave;
     }
 }

@@ -15,6 +15,8 @@ using System.Collections.Specialized;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
+using OfficeOpenXml;
+using System.IO;
 
 namespace EntityAccessManagement
 {
@@ -317,6 +319,82 @@ namespace EntityAccessManagement
                 }
             });
 
+        }
+
+        public void ExportRolePrivilegesToExcel()
+        {
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+            // Create a new Excel package
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                // Create a new worksheet
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Role Privileges");
+
+                // Set the column headers
+                worksheet.Cells[1, 1].Value = "Role Name";
+                worksheet.Cells[1, 2].Value = "Entity Name";
+                worksheet.Cells[1, 3].Value = "Create Privilege";
+                worksheet.Cells[1, 4].Value = "Read Privilege";
+                worksheet.Cells[1, 5].Value = "Write Privilege";
+                worksheet.Cells[1, 6].Value = "Delete Privilege";
+                worksheet.Cells[1, 7].Value = "Append Privilege";
+                worksheet.Cells[1, 8].Value = "Append To Privilege";
+                worksheet.Cells[1, 9].Value = "Assign Privilege";
+                worksheet.Cells[1, 10].Value = "Share Privilege";
+
+                // Set the data rows
+                int row = 2;
+                foreach (var rolePrivilege in EntityPrivileges.RolePrivileges)
+                {
+                    worksheet.Cells[row, 1].Value = rolePrivilege.RoleName;
+                    worksheet.Cells[row, 2].Value = EntityPrivileges.EntityName;
+                    worksheet.Cells[row, 3].Value = GetPermissionlevel(rolePrivilege.CreateDepth);
+                    worksheet.Cells[row, 4].Value = GetPermissionlevel(rolePrivilege.ReadDepth);
+                    worksheet.Cells[row, 5].Value = GetPermissionlevel(rolePrivilege.WriteDepth);
+                    worksheet.Cells[row, 6].Value = GetPermissionlevel(rolePrivilege.DeleteDepth);
+                    worksheet.Cells[row, 7].Value = GetPermissionlevel(rolePrivilege.AppendDepth);
+                    worksheet.Cells[row, 8].Value = GetPermissionlevel(rolePrivilege.AppendToDepth);
+                    worksheet.Cells[row, 9].Value = GetPermissionlevel(rolePrivilege.AssignDepth);
+                    worksheet.Cells[row, 10].Value = GetPermissionlevel(rolePrivilege.ShareDepth);
+
+                    row++;
+                }
+
+                // Auto fit the columns
+                worksheet.Cells.AutoFitColumns();
+
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+                string filePath = Path.Combine(desktopPath, EntityPrivileges.EntityName + "RolePrivileges.xlsx");
+                FileInfo file = new FileInfo(filePath);
+                package.SaveAs(file);
+                MessageBox.Show(this, "Export to desktop successful!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private string GetPermissionlevel(int Depth)
+        {
+            switch (Depth)
+            {
+                case 0:return "None";
+                case 1:return "User";
+                case 2:return "Business Unit";
+                case 4:return "Parental";
+                case 8:return "Organization";
+                default:
+                    return "";
+            }
+        }
+
+        private void tabExcel_Click(object sender, EventArgs e)
+        {
+            if(EntityPrivileges.RolePrivileges==null|| EntityPrivileges.RolePrivileges.Count == 0)
+            {
+                MessageBox.Show(this, "RolePrivileges Not found!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            ExportRolePrivilegesToExcel();
         }
     }
 }
