@@ -11,8 +11,8 @@
 		<TargetFramework>net472</TargetFramework>
 		<FileAlignment>512</FileAlignment>
 		<Version Condition="$(Version)==''">$([System.DateTime]::Now.ToString('0.yyyy.MM.90dd'))</Version>
-		<AssemblyVersion>$(Version)</AssemblyVersion>
-		<FileVersion>$(Version)</FileVersion>
+		<AssemblyVersion>1.2024.1.1</AssemblyVersion>
+		<FileVersion>1.2024.1.1</FileVersion>
 		<Authors>Zhao Tan</Authors>
 		<Company>Zhao Tan</Company>
 		<Copyright>Copyright © 2022</Copyright>
@@ -49,6 +49,7 @@
 			move /Y "$(TargetDir)EntityAccessManagement.pdb" $(TargetDir)XrmToolBox\Plugins\
 			)
 		</PostBuildEvent>
+		<Version>1.2024.1.1</Version>
 	</PropertyGroup>
 
 </Project>
