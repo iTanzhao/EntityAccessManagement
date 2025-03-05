@@ -385,47 +385,7 @@ namespace EntityAccessManagement
             }
 
             ComparePermissions(targetPrivileges, CopyFromRolePrivileges);
-                
-
             MessageBox.Show(this, "The permissions have been successfully copied. Please check for errors before deciding whether to save", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                
-            //WorkAsync(new WorkAsyncInfo
-            //{
-            //    Message = $"Save permissions...",
-            //    Work = (worker, args) =>
-            //    {
-            //        var errorMsg = new StringBuilder();
-            //        foreach (var item in temp_processLists)
-            //        {
-            //            LogInfo($"RoleId:{item.RoleId},PrivilegeId:{item.PrivilegeId},Depth:{item.Depth},Old_Depth:{item.Old_Depth}");
-            //            try
-            //            {
-            //                CRMHelper.UpdatePrivilegesRole(Service, item);
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //                errorMsg.AppendLine(ex.Message);
-            //                continue;
-            //            }
-            //        }
-            //        processLists.Clear();
-            //        if (errorMsg.Length != 0)
-            //        {
-            //            MessageBox.Show(errorMsg.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        }
-            //    },
-            //    PostWorkCallBack = (args) =>
-            //    {
-            //        if (args.Error != null)
-            //        {
-            //            MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        }
-
-            //        MessageBox.Show(this, "Successfully copied", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            //        //Loadpermissions();
-            //    }
-            //});
         }
 
         private void ComparePermissions(List<RolePrivileges> targetPrivileges, List<RolePrivileges> copyPrivileges)
