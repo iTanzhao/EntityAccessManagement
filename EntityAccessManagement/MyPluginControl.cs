@@ -88,6 +88,10 @@ namespace EntityAccessManagement
                     {
                         cbEntities.Items.Add(entity.LogicalName);
                     }
+                    foreach (var entity in result)
+                    {
+                        copyEntities.Items.Add(entity.LogicalName);
+                    }
                     cbEntities.SelectedIndex = 0;
                 }
             });
@@ -206,6 +210,44 @@ namespace EntityAccessManagement
             });
         }
 
+        private List<RolePrivileges> LoadCopyFrompermissions()
+        {
+            var CopyFromPrivileges = new EntityPrivileges
+            {
+                EntityName = copyEntities.SelectedItem.ToString()
+            };
+
+            EntityCollection roles = CRMHelper.GetAllRoles(Service);
+            List<RolePrivileges> list_RolePrivileges = new List<RolePrivileges>();
+            foreach (var item in roles.Entities)
+            {
+                RolePrivileges privileges = new RolePrivileges
+                {
+                    RoleId = item.Id,
+                    RoleName = item["name"].ToString(),
+                    BusinessUnitId = (item["businessunitid"] as EntityReference).Id,
+                };
+                list_RolePrivileges.Add(privileges);
+            }
+            CopyFromPrivileges.RolePrivileges = list_RolePrivileges;
+
+            foreach (PrivilegeType privilegeType in Enum.GetValues(typeof(PrivilegeType)))
+            {
+                Entity Privilege = CRMHelper.GetPrivilege(Service, $"{privilegeType}{CopyFromPrivileges.EntityName}");
+                if (Privilege == null)
+                {
+                    continue;
+                }
+                CopyFromPrivileges.SetPrivilegeId(privilegeType, Privilege);
+                EntityCollection entityCollection = CRMHelper.GetRoleprivileges(Service, Privilege.Id.ToString());
+                foreach (var item in entityCollection.Entities)
+                {
+                    CopyFromPrivileges.SetRolePrivileges(privilegeType, item);
+                }
+            }
+            return CopyFromPrivileges.RolePrivileges.OrderBy(t => t.RoleName).ToList();
+        }
+
         private readonly List<ProcessList> processLists = new List<ProcessList>();
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -321,6 +363,191 @@ namespace EntityAccessManagement
 
         }
 
+        private void tsbCopy_Click(object sender, EventArgs e)
+        {
+            if (processLists.Count > 0) 
+            {
+                MessageBox.Show(this, $"Please save the modified permissions before using this button", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            var copyfromEntity = copyEntities.SelectedItem.ToString();
+            var cbEntity = cbEntities.SelectedItem.ToString();
+            MessageBox.Show(this, $"You will transfer the permission to copy entity {copyfromEntity} to entity {cbEntity}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            
+            processLists.Clear();
+
+            var CopyFromRolePrivileges = LoadCopyFrompermissions();
+            var targetPrivileges = (List<RolePrivileges>)dataGridView1.DataSource;
+            if (targetPrivileges == null || CopyFromRolePrivileges == null)
+            {
+                MessageBox.Show(this, "Please ensure that the permission data has been loaded and the copy entity has been selected", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            ComparePermissions(targetPrivileges, CopyFromRolePrivileges);
+                
+
+            MessageBox.Show(this, "The permissions have been successfully copied. Please check for errors before deciding whether to save", "Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                
+            //WorkAsync(new WorkAsyncInfo
+            //{
+            //    Message = $"Save permissions...",
+            //    Work = (worker, args) =>
+            //    {
+            //        var errorMsg = new StringBuilder();
+            //        foreach (var item in temp_processLists)
+            //        {
+            //            LogInfo($"RoleId:{item.RoleId},PrivilegeId:{item.PrivilegeId},Depth:{item.Depth},Old_Depth:{item.Old_Depth}");
+            //            try
+            //            {
+            //                CRMHelper.UpdatePrivilegesRole(Service, item);
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                errorMsg.AppendLine(ex.Message);
+            //                continue;
+            //            }
+            //        }
+            //        processLists.Clear();
+            //        if (errorMsg.Length != 0)
+            //        {
+            //            MessageBox.Show(errorMsg.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        }
+            //    },
+            //    PostWorkCallBack = (args) =>
+            //    {
+            //        if (args.Error != null)
+            //        {
+            //            MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        }
+
+            //        MessageBox.Show(this, "Successfully copied", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            //        //Loadpermissions();
+            //    }
+            //});
+        }
+
+        private void ComparePermissions(List<RolePrivileges> targetPrivileges, List<RolePrivileges> copyPrivileges)
+        {
+            int rowIndex = 0;
+            foreach (var target in targetPrivileges)
+            {
+                bool isRowChange = false;
+                var copy = copyPrivileges.Where(c => c.RoleId == target.RoleId).FirstOrDefault();
+                if (target.CreateDepth != copy.CreateDepth)
+                {
+                    this.dataGridView1.Rows[rowIndex].Cells[GetColumnIndexFromName("CreateImag")].Value = EntityPrivileges.GetPrivilegeLevel(copy.CreateDepth);
+                    ProcessList process = new ProcessList();
+                    process.RoleId = target.RoleId;
+                    process.BusinessUnitId = target.BusinessUnitId;
+                    process.PrivilegeId = target.CreatePrivilegeId;
+                    process.Old_Depth = target.CreateDepth;
+                    process.Depth = copy.CreateDepth;
+                    processLists.Add(process);
+                    isRowChange = true;
+                }
+                if (target.ReadDepth != copy.ReadDepth)
+                {
+                    this.dataGridView1.Rows[rowIndex].Cells[GetColumnIndexFromName("ReadImag")].Value = EntityPrivileges.GetPrivilegeLevel(copy.ReadDepth);
+                    ProcessList process = new ProcessList();
+                    process.RoleId = target.RoleId;
+                    process.BusinessUnitId = target.BusinessUnitId;
+                    process.PrivilegeId = target.ReadPrivilegeId;
+                    process.Old_Depth = target.ReadDepth;
+                    process.Depth = copy.ReadDepth;
+                    processLists.Add(process);
+                    isRowChange = true;
+                }
+                if (target.WriteDepth != copy.WriteDepth)
+                {
+                    this.dataGridView1.Rows[rowIndex].Cells[GetColumnIndexFromName("WriteImag")].Value = EntityPrivileges.GetPrivilegeLevel(copy.WriteDepth);
+                    ProcessList process = new ProcessList();
+                    process.RoleId = target.RoleId;
+                    process.BusinessUnitId = target.BusinessUnitId;
+                    process.PrivilegeId = target.WritePrivilegeId;
+                    process.Old_Depth = target.WriteDepth;
+                    process.Depth = copy.WriteDepth;
+                    processLists.Add(process);
+                    isRowChange = true;
+                }
+                if (target.DeleteDepth != copy.DeleteDepth)
+                {
+                    this.dataGridView1.Rows[rowIndex].Cells[GetColumnIndexFromName("DeleteImag")].Value = EntityPrivileges.GetPrivilegeLevel(copy.DeleteDepth);
+                    ProcessList process = new ProcessList();
+                    process.RoleId = target.RoleId;
+                    process.BusinessUnitId = target.BusinessUnitId;
+                    process.PrivilegeId = target.DeletePrivilegeId;
+                    process.Old_Depth = target.DeleteDepth;
+                    process.Depth = copy.DeleteDepth;
+                    processLists.Add(process);
+                    isRowChange = true;
+                }
+                if (target.AppendDepth != copy.AppendDepth)
+                {
+                    this.dataGridView1.Rows[rowIndex].Cells[GetColumnIndexFromName("AppendImag")].Value = EntityPrivileges.GetPrivilegeLevel(copy.AppendDepth);
+                    ProcessList process = new ProcessList();
+                    process.RoleId = target.RoleId;
+                    process.BusinessUnitId = target.BusinessUnitId;
+                    process.PrivilegeId = target.AppendPrivilegeId;
+                    process.Old_Depth = target.AppendDepth;
+                    process.Depth = copy.AppendDepth;
+                    processLists.Add(process);
+                    isRowChange = true;
+                }
+                if (target.AppendToDepth != copy.AppendToDepth)
+                {
+                    this.dataGridView1.Rows[rowIndex].Cells[GetColumnIndexFromName("AppendToImag")].Value = EntityPrivileges.GetPrivilegeLevel(copy.AppendToDepth);
+                    ProcessList process = new ProcessList();
+                    process.RoleId = target.RoleId;
+                    process.BusinessUnitId = target.BusinessUnitId;
+                    process.PrivilegeId = target.AppendToPrivilegeId;
+                    process.Old_Depth = target.AppendToDepth;
+                    process.Depth = copy.AppendToDepth;
+                    processLists.Add(process);
+                    isRowChange = true;
+                }
+                if (target.AssignDepth != copy.AssignDepth)
+                {
+                    this.dataGridView1.Rows[rowIndex].Cells[GetColumnIndexFromName("AssignImag")].Value = EntityPrivileges.GetPrivilegeLevel(copy.AssignDepth);
+                    ProcessList process = new ProcessList();
+                    process.RoleId = target.RoleId;
+                    process.BusinessUnitId = target.BusinessUnitId;
+                    process.PrivilegeId = target.AssignPrivilegeId;
+                    process.Old_Depth = target.AssignDepth;
+                    process.Depth = copy.AssignDepth;
+                    processLists.Add(process);
+                    isRowChange = true;
+                }
+                if (target.ShareDepth != copy.ShareDepth)
+                {
+                    this.dataGridView1.Rows[rowIndex].Cells[GetColumnIndexFromName("ShareImag")].Value = EntityPrivileges.GetPrivilegeLevel(copy.ShareDepth);
+                    ProcessList process = new ProcessList();
+                    process.RoleId = target.RoleId;
+                    process.BusinessUnitId = target.BusinessUnitId;
+                    process.PrivilegeId = target.SharePrivilegeId;
+                    process.Old_Depth = target.ShareDepth;
+                    process.Depth = copy.ShareDepth;
+                    processLists.Add(process);
+                    isRowChange = true;
+                }
+                if (isRowChange) this.dataGridView1.FirstDisplayedScrollingRowIndex = rowIndex;
+                rowIndex++;
+            }
+        }
+
+        private int GetColumnIndexFromName(string columnName) 
+        {
+            int columnIndex = -1;
+            if (dataGridView1.Columns.Contains(columnName))
+            {
+                DataGridViewColumn column = dataGridView1.Columns[columnName];
+                columnIndex = column.Index;
+            }
+            return columnIndex;
+        }
+
+
         public void ExportRolePrivilegesToExcel()
         {
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
@@ -395,11 +622,6 @@ namespace EntityAccessManagement
             }
 
             ExportRolePrivilegesToExcel();
-        }
-
-        private void tsbCopyFromEntity_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

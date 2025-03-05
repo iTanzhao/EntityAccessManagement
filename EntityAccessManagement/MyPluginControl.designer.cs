@@ -46,7 +46,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.copyEntities = new System.Windows.Forms.ComboBox();
             this.toolStripMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -140,7 +140,7 @@
             this.tsbCopyFromEntity.Name = "tsbCopyFromEntity";
             this.tsbCopyFromEntity.Size = new System.Drawing.Size(164, 33);
             this.tsbCopyFromEntity.Text = "Cpoy From Entity";
-            this.tsbCopyFromEntity.Click += new System.EventHandler(this.tsbCopyFromEntity_Click);
+            this.tsbCopyFromEntity.Click += new System.EventHandler(this.tsbCopy_Click);
             // 
             // label1
             // 
@@ -162,7 +162,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.69565F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.30435F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 302F));
-            this.tableLayoutPanel1.Controls.Add(this.comboBox1, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.copyEntities, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.cbEntities, 1, 0);
@@ -226,17 +226,17 @@
             this.label2.Text = "copyEntities";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // comboBox1
+            // copyEntities
             // 
-            this.comboBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.DropDownWidth = 295;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(890, 12);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(295, 26);
-            this.comboBox1.TabIndex = 14;
+            this.copyEntities.Dock = System.Windows.Forms.DockStyle.Right;
+            this.copyEntities.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.copyEntities.DropDownWidth = 295;
+            this.copyEntities.FormattingEnabled = true;
+            this.copyEntities.Location = new System.Drawing.Point(890, 12);
+            this.copyEntities.Margin = new System.Windows.Forms.Padding(4);
+            this.copyEntities.Name = "copyEntities";
+            this.copyEntities.Size = new System.Drawing.Size(295, 26);
+            this.copyEntities.TabIndex = 14;
             // 
             // MyPluginControl
             // 
@@ -275,7 +275,7 @@
         private System.Windows.Forms.ToolStripButton tsbSave;
         private System.Windows.Forms.ToolStripButton tsbCopyFromEntity;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox copyEntities;
         private System.Windows.Forms.Label label2;
     }
 }
