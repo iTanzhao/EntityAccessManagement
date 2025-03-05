@@ -21,3 +21,7 @@ Double-click the permission icon in the table, similar to permission editing in 
 
 ## Import to Excel
 The current result can be saved to the desktop.
+
+## Copy From Entity
+Select Entities as the target entity, and click Load permissions to load the target entity permissions, then select copyEntities as the copy entity permissions, and then click Copy From Entity to copy the permissions, this operation is not directly saved but will generate a processing list processLists, check that the copied permissions are correct, and then click Save Your Change.(Thanks for the @LYMDS enhancements.)
+![image](https://github.com/user-attachments/assets/a776ae37-324b-468f-84f8-a88b1bb522d6)
