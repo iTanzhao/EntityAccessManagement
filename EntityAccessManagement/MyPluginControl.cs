@@ -396,5 +396,10 @@ namespace EntityAccessManagement
 
             ExportRolePrivilegesToExcel();
         }
+
+        private void tsbCopyFromEntity_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
